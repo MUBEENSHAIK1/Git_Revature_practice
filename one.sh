@@ -1,0 +1,5 @@
+echo "Welcome to shell_scripting"
+echo "In shell_Scripting we should write files in .sh"
+echo "We should us vi cmd and file_name with extention then it opens then click i and start writing data"
+echo "After that click esc and :wq to Quit"
+echo "Now in Linux sh.file_name to run it"
