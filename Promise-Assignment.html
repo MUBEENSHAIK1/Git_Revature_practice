@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SpaceX Launch - Promise</title>
+</head>
+<body>
+
+<h2>🛰️👾 SpaceX Latest Launch (Promise)</h2>
+
+<button onclick="loadLaunch()">Load Latest Launch</button>
+
+<p id="loading"></p>
+
+<div id="launchDetails"></div>
+
+<script>
+function loadLaunch() {
+    const loading = document.getElementById("loading");
+    const details = document.getElementById("launchDetails");
+
+    loading.innerText = "Loading latest launch details...";
+    details.innerHTML = "";
+
+    fetch("https://api.spacexdata.com/v4/launches/latest")
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error("Failed to fetch data");
+            }
+            return response.json();
+        })
+        .then(function(data) {
+            loading.innerText = "";
+            details.innerHTML = `
+                <h3>Mission Name:</h3>
+                <p>${data.name}</p>
+            `;
+        })
+        .catch(function(error) {
+            loading.innerText = "";
+            details.innerText = "Error loading launch details";
+            console.error(error);
+        });
+}
+</script>
+
+</body>
+</html>

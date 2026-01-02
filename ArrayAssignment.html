@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document</title>
+</head>
+<body>
+    <h3> All student list  </h3>
+    <ul id="studentlist"></ul>
+
+    <h3>Students who got more than 60 marks</h3>
+    <ul id="studentscore"></ul>
+
+    <h3>Students who belongs to  same branch </h3>
+    <ul id="deptlist"></ul>
+    <h3> Student with highest marks</h3>
+    <p id="topscore"></p>  
+
+    
+    <h2>students in a table with columns: Name, Marks, Department.</h2>
+    <table  border="3px" cellpadding="15" cellspacing="2">
+         <thead>
+            <tr>
+                <th>Name</th>
+                <th>Marks</th>
+                <th>Department</th>
+            </tr>
+         </thead>
+         <tbody id="studenttable">   <!-- tbody will take JS-->
+                 
+         </tbody>
+
+    </table>
+
+     <h3> Average Marks of All the students</h3>
+    <p id="StudentAverage"></p>
+    
+    <h3>Display only CSE students in HTML</h3>
+    <ul id="studentscse"></ul>
+
+
+    <h3>Sort students by marks in descending order</h3>
+
+       <table  border="3px" cellpadding="15" >
+         <thead>
+            <tr>
+                <th>Names</th>
+                <th>Marks</th>
+                <th>Department</th>
+            </tr>
+         </thead>
+         <tbody id="stable">   <!-- tbody will take JS-->
+                 
+         </tbody>
+
+    </table>
+    
+
+    <h2> Failed Students </h2>
+
+    <style>
+      .fail {
+
+        background-color: skyblue;
+        color: red;
+        font-weight:  bold;
+      }
+    </style>
+    <table border="3" cellpadding="15">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Marks</th>
+        <th>Department</th>
+      </tr>
+    </thead>
+    <tbody id="failedstudent"></tbody>
+  </table>
+
+    <script>
+          const Students = [
+
+  { id: 1, name: "Amit", marks: 78, department: "CSE" },
+
+  { id: 2, name: "Priya", marks: 92, department: "ECE" },
+
+  { id: 3, name: "Rahul", marks: 45, department: "MECH" },
+
+  { id: 4, name: "Sneha", marks: 66, department: "CSE" },
+
+  { id: 5, name: "Ajay", marks: 70, department: "ECE" },
+
+  { id: 6, name: "kiran", marks: 66, department: "CSE" },
+
+  { id: 7, name: "Sai", marks: 78, department: "MECH" },
+
+  { id: 8, name: "Kumar", marks: 33, department: "CSE" },
+
+  { id: 9, name: "hemanth", marks: 55, department: "CSE" },
+
+  { id: 10, name: "harish", marks: 87, department: "ECE" },
+  
+
+];
+
+// printing all the students list in Unordered list
+const ui =document.getElementById("studentlist");  //step-1 ui   "id = studentlist"
+Students.forEach(s=>{                              //step-2 forech
+  const li = document.createElement("li");          //step-3 li ,d.create element("li")
+   li.innerHTML=s.name ;                           //step-4   li.innerhtml =s.name
+   ui.appendChild(li);                             //step-5 ui.appendchild(li)
+});
+
+//Display only students who scored more than 60 marks.
+
+const ss = document.getElementById("studentscore");
+
+Students.forEach(s=>{
+    if (s.marks>60){
+
+      const li=document.createElement("li");
+      li.innerHTML=`${s.name}-${s.marks}`;
+      ss.appendChild(li);
+    }
+})
+
+// Count how many students belong to each department.
+
+const depcount ={};   //use an object
+
+const ul =document.getElementById("deptlist");
+
+Students.forEach(s=>{
+    depcount[s.department]=(depcount[s.department] || 0) +1;
+});
+for (let dept in depcount) {
+    const li = document.createElement("li");
+    li.innerHTML =` ${dept} : ${depcount[dept]}`
+    ul.appendChild(li);
+}
+
+
+
+//===================================================================
+///Another way 
+// const depcount1 ={};
+
+// Students.forEach (s=>{
+//     if (depcount[s.department]) {
+//         depcount[s.department]++;
+//     } else {
+//         depcount[s.department] =1;
+//     }
+// });
+// // console.log(depcount1);      ==> this is in console output
+
+// const ul = document.getElementById("deptlist");
+// //converting object into ui
+// for (let dep in depcount1) {
+//     const li = document.createElement("li");
+//     li.innerHTML =`${dep} - ${depcount1[dep]}`
+//     ul.appendChild(li);
+// }
+
+//=======================================================================
+//Find the student with the highest marks.
+let topscore = Students[0];              
+
+  Students.forEach(s=>{
+    if (s.marks >topscore.marks) {
+        topscore =s;
+    }
+  });
+
+  document.getElementById("topscore").innerHTML = `Name : ${topscore.name} , Marks : ${topscore.marks} , Department : ${topscore.department}`;
+
+//Display students in a table with columns: Name, Marks, Department.
+
+   const tbody = document.getElementById("studenttable");
+
+   Students.forEach(s=>{
+    const tr = document.createElement("tr")
+
+    const tdName = document.createElement("td");
+    tdName.innerHTML = s.name;
+
+    const tdMarks = document.createElement("td");
+    tdMarks.innerHTML = s.marks;
+
+    const tdDep = document.createElement("td");
+    tdDep.innerHTML = s.department;
+   
+    tr.appendChild(tdName);
+    tr.appendChild(tdMarks);
+    tr.appendChild(tdDep);
+
+    tbody.appendChild(tr);
+    });
+
+    //Calculate the average marks of all students.
+    
+    let totalmarks =0;
+
+    Students.forEach(s=>{
+      totalmarks += s.marks;  //adding all marks
+    });
+
+    const average =totalmarks/Students.length;  //average
+  
+    document.getElementById("StudentAverage").innerHTML =
+    `Average Marks of All Students : ${average.toFixed(2)}`;   //tofixed used for after dot print 2numbers
+   
+
+    //Display only CSE students in HTML
+     
+    const c =document.getElementById("studentscse");
+    
+    Students.forEach(s=>{
+
+      if(s.department =="CSE") {
+        const li =document.createElement("li");
+        li.innerHTML =`${s.name} - ${s.department}`
+        c.appendChild(li);
+      }
+    })
+     
+
+    //Sort students by marks in descending order.
+    
+    //create a copy of original array
+    const sortedstudents =[...Students];
+
+    //sortby marks
+    sortedstudents.sort((a ,b)=>b.marks - a.marks);
+
+    //print in ui
+    const sortedTbody = document.getElementById("stable");
+
+    sortedstudents.forEach(s=>{
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+       <td> ${s.name} </td> 
+      <td> ${s.marks} </td>
+      <td> ${s.department} </td>
+      `;
+      sortedTbody.appendChild(tr);
+       });
+
+      //Failed students 
+
+      const failed = document.getElementById("failedstudent");
+      Students.forEach(s=>{
+          const trs = document.createElement("tr");
+          if (s.marks <50) {
+            trs.innerHTML = `
+            <td> ${s.name} </td>
+            <td> ${s.marks} </td>
+            <td> ${s.department} </td>
+            
+            `;
+            failed.appendChild(trs);
+
+          }                   
+      });
+   
+    </script>
+</body>
+</html>
